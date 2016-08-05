@@ -14,8 +14,44 @@
       <link href="fonts/font-awesome/css/font-awesome.min.css" rel="stylesheet">
       <link rel="stylesheet" type="text/css" href="./css/style.css"/>
       <link href="./css/navbar-fixed-top.css" rel="stylesheet">
+      <script type="text/javascript">
+document.addEventListener("deviceready",onDeviceReady,false);
+function onDeviceReady(){
+console.log("Device Ready")
+var push = PushNotification.init({ "android": {"senderID": "1470318467523"},
+"ios": {"alert": "true", "badge": "true", "sound": "true"}, "windows": {} } );
+
+push.on('registration', function(data) {
+console.log(data.registrationId);
+$("#gcm_id").html(data.registrationId);
+});
+
+push.on('notification', function(data) {
+console.log(data.message);
+alert(data.title+" Message: " +data.message);
+// data.title,
+// data.count,
+// data.sound,
+// data.image,
+// data.additionalData
+});
+
+push.on('error', function(e) {
+console.log(e.message);
+});
+}
+</script>
+      
+      
+      
+      
+      
+      
    </head>
    <body>
+   	<h1>Push Notification Example</h1>
+Your GCM ID : <br/>
+<p id="gcm_id"></p>
       <nav class="navbar navbar-default navbar-fixed-top navbar-md">
          <div class="container">
             <div class="navbar-header">
