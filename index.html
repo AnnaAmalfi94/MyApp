@@ -16,31 +16,21 @@
       <link href="./css/navbar-fixed-top.css" rel="stylesheet">
        <script type="text/javascript" src="cordova.js"></script>
       <script type="text/javascript">
-document.addEventListener("deviceready",onDeviceReady,false);
-function onDeviceReady(){
-console.log("Device Ready")
-var push = PushNotification.init({ "android": {"senderID": "667800789546"},
-"ios": {"alert": "true", "badge": "true", "sound": "true"}, "windows": {} } );
+document.addEventListener('deviceready', function () {
+  // Enable to debug issues.
+  // window.plugins.OneSignal.setLogLevel({logLevel: 4, visualLevel: 4});
+  
+  var notificationOpenedCallback = function(jsonData) {
+    console.log('didReceiveRemoteNotificationCallBack: ' + JSON.stringify(jsonData));
+  };
 
-push.on('registration', function(data) {
-console.log(data.registrationId);
-$("#gcm_id").html(data.registrationId);
-});
-
-push.on('notification', function(data) {
-console.log(data.message);
-alert(data.title+" Message: " +data.message);
-// data.title,
-// data.count,
-// data.sound,
-// data.image,
-// data.additionalData
-});
-
-push.on('error', function(e) {
-console.log(e.message);
-});
-}
+  window.plugins.OneSignal.init("f500b8d7-92b3-4748-b073-9fd25c357c60",
+                                 {googleProjectNumber: "905211826236"},
+                                 notificationOpenedCallback);
+  
+  // Show an alert box if a notification comes in when the user is in your app.
+  window.plugins.OneSignal.enableInAppAlertNotification(true);
+}, false);
 </script>
       
       
@@ -50,9 +40,7 @@ console.log(e.message);
       
    </head>
    <body>
-   	<h1>Push Notification Example</h1>
-Your GCM ID : <br/>
-<p id="gcm_id"></p>
+   
       <nav class="navbar navbar-default navbar-fixed-top navbar-md">
          <div class="container">
             <div class="navbar-header">
